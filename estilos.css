@@ -48,10 +48,4 @@
     height: 15px;
   }
 
-  @media only screen and (max-width: 768px) {
-    /* Cambia el estilo del contenedor de la barra de navegación */
-    .menu-navegacion {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  }
+  
