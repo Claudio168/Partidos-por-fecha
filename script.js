@@ -69,6 +69,7 @@ function consulta(){
           }</td>
                    <td>${fechaCorta}</td>
                    <td>${hora}</td>
+                   <td><a href="pronosticos.html?fixture=${element.fixture.id}">Ver</a></td>
                  
                 `;
           partidos.appendChild(tr);
