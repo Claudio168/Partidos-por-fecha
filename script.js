@@ -1,4 +1,8 @@
 function consulta(){
+      // Si ya existe una tabla creada, destruirla
+      if ($.fn.DataTable.isDataTable('#tablaResul')) {
+        $('#tablaResul').DataTable().clear().destroy();
+      }
     const loader = document.querySelector(".loader");
     loader.style.display = "block";
     
@@ -74,17 +78,22 @@ function consulta(){
                 `;
           partidos.appendChild(tr);
         });
-
-        $(document).ready(function () {
-          $("#tablaResul").DataTable({
-            responsive: true,
-            language: {
-              url: "//cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json",
-            },
-            "bInfo": false
+        
+          // La tabla no ha sido inicializada, se puede inicializar con la función DataTable()
+          
+      
+          $(document).ready(function () {
+           
+            $("#tablaResul").DataTable({
+              stateSave: true,
+              responsive: true,
+              language: {
+                url: "//cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json",
+              },
+              "bInfo": false
+            });
           });
-        });
-
+          
         loader.style.display = "none";
       })
       .catch((err) => {
