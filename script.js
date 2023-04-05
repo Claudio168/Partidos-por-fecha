@@ -1,8 +1,8 @@
 function consulta(){
       // Si ya existe una tabla creada, destruirla
-      if ($.fn.DataTable.isDataTable('#tablaResul')) {
-        $('#tablaResul').DataTable().clear().destroy();
-      }
+      //if ($.fn.DataTable.isDataTable('#tablaResul')) {
+       // $('#tablaResul').DataTable().clear().destroy();
+     // }
     const loader = document.querySelector(".loader");
     loader.style.display = "block";
     
