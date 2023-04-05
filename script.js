@@ -41,13 +41,13 @@ function consulta(){
                    <td>${element.league.name}</td>
                    <td>${element.league.round}</td>
                    <td>${element.league.season}</td>
-                   <td class="alider">
-                      ${element.teams.home.name}
+                   <td>
                       <img src="${
                         element.teams.home.logo
                       }" alt="Imagen del equipo local" class="centrada" />
+                      ${element.teams.home.name}
                   </td>
-                  <td class="alizq">
+                  <td>
                       <img src="${
                         element.teams.away.logo
                       }" alt="Imagen del equipo visitante" class="centrada" />
@@ -85,7 +85,7 @@ function consulta(){
           $(document).ready(function () {
            
             $("#tablaResul").DataTable({
-              stateSave: true,
+              //stateSave: true,
               responsive: true,
               language: {
                 url: "//cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json",
