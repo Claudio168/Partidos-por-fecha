@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>The best betting odds</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  </head>
+  <body>
+    <div class="container mt-3">
+      <h2>The best betting odds</h2>
+      <h3 id="team"></h3>
+      <br />
+      <!-- Nav tabs -->
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Mi sitio web</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="nav nav-tabs flex-column flex-sm-row" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" data-bs-toggle="tab" href="#home"
+                >Home</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-bs-toggle="tab" href="#menuWin"
+                >Match Winner</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-bs-toggle="tab" href="#menu-over-under"
+                >Goals Over/Under</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-bs-toggle="tab" href="#menu-both-score"
+                >Both Teams Score</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                data-bs-toggle="tab"
+                href="#menu-score-both-halves"
+                >To Score in Both Halves</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                data-bs-toggle="tab"
+                href="#CorrectScoreFirstHalf"
+                >Correct Score - First Half</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                data-bs-toggle="tab"
+                href="#exactScore"
+                >Exact Score</a
+              >
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <div id="home" class="container tab-pane active">
+          <br />
+          <h3>HOME</h3>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          </p>
+        </div>
+        <div id="menuWin" class="container tab-pane fade">
+          <br />
+        </div>
+        <div id="menu-over-under" class="container tab-pane fade">
+          <br />
+        </div>
+        <div id="menu-both-score" class="container tab-pane fade">
+          <br />
+        </div>
+        <div id="menu-score-both-halves" class="container tab-pane fade">
+          <br />
+        </div>
+        <div id="CorrectScoreFirstHalf" class="container tab-pane fade">
+          <br />
+          CorrectScoreFirstHalf
+        </div>
+        <div id="exactScore" class="container tab-pane fade">
+          <br />
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Obtener el valor del parámetro fixture desde la URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const fixture = urlParams.get("fixture");
+      const home = urlParams.get("home");
+      const away = urlParams.get("away");
+      document.getElementById("team").innerHTML = `${home} vs ${away}`;
+      var datos = "";
+      // Comprobar si ya se han almacenado los datos hoy
+      const today = new Date().toISOString().slice(0, 10);
+      const nameFixture = "fixture" + fixture;
+      const storedData = localStorage.getItem(nameFixture);
+      if (storedData) {
+        const parsedData = JSON.parse(storedData);
+        if (parsedData.date === today) {
+          // Los datos ya se han almacenado hoy, utilizar los datos almacenados
+          console.log("Datos desde localstore .................");
+          datos = parsedData.data;
+          console.log(datos);
+          odds();
+        } else {
+          console.log("Datos desde una nueva consulta api");
+          apiQuery();
+        }
+      } else {
+        // Los datos aún no se han almacenado hoy, hacer una petición a la API y almacenar los datos en localStorage
+        console.log("Datos desde una nueva consulta api");
+        apiQuery();
+      }
+
+      function apiQuery() {
+        fetch(`https://v3.football.api-sports.io/odds?fixture=${fixture}`, {
+          method: "GET",
+          headers: {
+            "x-rapidapi-host": "v3.football.api-sports.io",
+            "x-rapidapi-key": "22240ee711b7e2faa6b80fa55809e7db",
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            datos = data;
+            const newData = { date: today, data }; //se asigna la fecha de hoy a data
+            localStorage.setItem(nameFixture, JSON.stringify(newData));
+            console.log(datos);
+            odds();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+
+      function odds() {
+        let cantcasas = datos.response[0].bookmakers.length;
+
+        for (var i = 0; i < cantcasas; i++) {
+          //Goals Over/Under
+          const goalsOverUnder = datos.response[0].bookmakers[i].bets.find(
+            (item) => item.name === "Goals Over/Under"
+          );
+
+          if (goalsOverUnder) {
+            const under05 = goalsOverUnder.values.find(
+              (item) => item.value === "Under 0.5"
+            );
+            const over05 = goalsOverUnder.values.find(
+              (item) => item.value === "Over 0.5"
+            );
+
+            if (under05 && over05) {
+              var over = over05.odd;
+              var under = under05.odd;
+            }
+          }
+
+          // crear un nuevo elemento HTML y asignarle la cadena de texto generada por la función underOver()
+          const divUnderOver = document.createElement("div");
+          divUnderOver.innerHTML = underOver(
+            datos.response[0].bookmakers[i].name,
+            goalsOverUnder.name,
+            over,
+            under
+          );
+
+          // agregar el nuevo elemento al document.body
+          const menuOverUnder = document.getElementById("menu-over-under");
+          menuOverUnder.appendChild(divUnderOver);
+
+          //ambos marcan
+          const BothScore = datos.response[0].bookmakers[i].bets.find(
+            (item) => item.name === "Both Teams Score"
+          );
+
+          if (BothScore) {
+            // crear un nuevo elemento HTML y asignarle la cadena de texto generada por la función BothTeamsScore()
+            const divBothScore = document.createElement("div");
+            divBothScore.innerHTML = BothTeamsScore(
+              datos.response[0].bookmakers[i].name,
+              BothTeamsScore.name,
+              BothScore.values[0].odd,
+              BothScore.values[1].odd
+            );
+
+            // agregar el nuevo elemento al document.body
+            const menuBothScore = document.getElementById("menu-both-score");
+            menuBothScore.appendChild(divBothScore);
+          }
+
+          //Goles ambas mitades
+          const ScoreBothHalves = datos.response[0].bookmakers[i].bets.find(
+            (item) => item.name === "To Score in Both Halves"
+          );
+
+          if (ScoreBothHalves) {
+            // crear un nuevo elemento HTML y asignarle la cadena de texto generada por la función BothTeamsScore()
+            const divScoreBothHalves = document.createElement("div");
+            divScoreBothHalves.innerHTML = BothTeamsScore(//se usa la funcion BothTeamsScore() porque es identica los requerimientos, solo se cambias los parametros
+              datos.response[0].bookmakers[i].name,
+              ScoreBothHalves.name,
+              ScoreBothHalves.values[0].odd,
+              ScoreBothHalves.values[1].odd
+            );
+
+            // agregar el nuevo elemento al document.body
+            const menuBothScore = document.getElementById("menu-score-both-halves");
+            menuBothScore.appendChild(divScoreBothHalves);
+          }
+
+          //Marcador exacto
+          const exactScore = datos.response[0].bookmakers[i].bets.find(
+            (item) => item.name === "Exact Score"
+          );
+
+          if (exactScore) {
+             //extraer la cuota mas pequeña para marcador exacto
+              const odds = exactScore.values.map(obj => parseFloat(obj.odd));
+              const smallestOdd = Math.min(...odds);
+              //extraer el indice de la cuota mas pequeña para poder mostrar el marcador
+              const smallestOddIndex = exactScore.values.findIndex(obj => parseFloat(obj.odd) === smallestOdd);
+      
+            // crear un nuevo elemento HTML y asignarle la cadena de texto generada por la función BothTeamsScore()
+            const divExactScore = document.createElement("div");
+            divExactScore.innerHTML = scoreExact(
+              datos.response[0].bookmakers[i].name,
+              exactScore.name,
+              exactScore.values[smallestOddIndex].value,
+              smallestOdd
+            );
+
+            // agregar el nuevo elemento al document.body
+            const menuBothScore = document.getElementById("exactScore");
+            menuBothScore.appendChild(divExactScore);
+          }
+
+          //Marcador exacto primer tiempo
+          const correctScoreFirstHalf = datos.response[0].bookmakers[i].bets.find(
+            (item) => item.name === "Correct Score - First Half"
+          );
+
+          if (correctScoreFirstHalf) {
+             //extraer la cuota mas pequeña para marcador exacto
+              const odds = correctScoreFirstHalf.values.map(obj => parseFloat(obj.odd));
+              const smallestOdd = Math.min(...odds);
+              //extraer el indice de la cuota mas pequeña para poder mostrar el marcador
+              const smallestOddIndex = correctScoreFirstHalf.values.findIndex(obj => parseFloat(obj.odd) === smallestOdd);
+      
+            // crear un nuevo elemento HTML y asignarle la cadena de texto generada por la función BothTeamsScore()
+            const divCorrectScoreFirstHalf = document.createElement("div");
+            divCorrectScoreFirstHalf.innerHTML = scoreExact(
+              datos.response[0].bookmakers[i].name,
+              correctScoreFirstHalf.name,
+              correctScoreFirstHalf.values[smallestOddIndex].value,
+              smallestOdd
+            );
+
+            // agregar el nuevo elemento al document.body
+            const menuBothScore = document.getElementById("CorrectScoreFirstHalf");
+            menuBothScore.appendChild(divCorrectScoreFirstHalf);
+          }
+
+          //Win
+          const divWin = document.createElement("div");
+          divWin.innerHTML = win(
+            datos.response[0].bookmakers[i].name,
+            datos.response[0].bookmakers[i].bets[0].name,
+            datos.response[0].bookmakers[i].bets[0].values[0].odd,
+            datos.response[0].bookmakers[i].bets[0].values[1].odd,
+            datos.response[0].bookmakers[i].bets[0].values[2].odd
+          );
+
+          // agregar el nuevo elemento al document.body
+          const menuWin = document.getElementById("menuWin");
+          menuWin.appendChild(divWin);
+        }
+      }
+
+      function underOver(casa, apuesta, over, under) {
+        return `
+				<div class="container mt-3 rounded" style="background-color: rgba(4, 55, 57, 0.941)">
+				<div class="d-flex justify-content-between">
+					<div class="p-3 text-light text-uppercase h2">${casa}</div>
+					<div class="p-3 text-light text-uppercase">--------</div>
+				</div>
+
+					<div class="p-1 mb-1">
+						<p class="m-2 text-light overflow-hidden">${apuesta}</p>
+						<div class="d-flex">
+							<div class="p-2 flex-fill overflow-hidden">
+								<div class="d-flex justify-content-between bg-dark mb-3 rounded">
+									<div class="p-2 text-light overflow-hidden">Over 0,5</div>
+									<div class="p-2 text-warning overflow-hidden">${over}</div>
+								</div>
+							</div>
+						<div class="p-2 flex-fill overflow-hidden">
+							<div class="d-flex justify-content-between bg-dark rounded">
+								<div class="p-2 text-light overflow-hidden">Under 0,5</div>
+								<div class="p-2 text-warning overflow-hidden">${under}</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				`;
+      }
+
+      function win(casa, apuesta, home, draw, away) {
+        return ` <div class="container mt-3 rounded" style="background-color: rgba(4, 55, 57, 0.941)">
+            <div class="d-flex justify-content-between">
+                <div class="p-3 text-light text-uppercase h2">${casa}</div>
+                <div class="p-3 text-light text-uppercase">--------</div>
+            </div>
+
+                <div class="p-1 mb-1">
+                    <p class="m-2 text-light overflow-hidden">${apuesta}</p>
+                    <div class="d-flex">
+                        <div class="p-2 flex-fill overflow-hidden">
+                            <div class="d-flex justify-content-between bg-dark mb-3 rounded">
+                                <div class="p-2 text-light overflow-hidden">Home</div>
+                                <div class="p-2 text-warning overflow-hidden">${home}</div>
+                            </div>
+                        </div>
+                    <div class="p-2 flex-fill overflow-hidden">
+                        <div class="d-flex justify-content-between bg-dark rounded">
+                            <div class="p-2 text-light overflow-hidden">Draw</div>
+                            <div class="p-2 text-warning overflow-hidden">${draw}</div>
+                        </div>
+                    </div>
+                    <div class="p-2 flex-fill overflow-hidden">
+                        <div class="d-flex justify-content-between bg-dark rounded">
+                            <div class="p-2 text-light overflow-hidden">Away</div>
+                            <div class="p-2 text-warning overflow-hidden">${away}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+      }
+
+      function BothTeamsScore(casa, apuesta, yes, no) {
+        return `
+				<div class="container mt-3 rounded" style="background-color: rgba(4, 55, 57, 0.941)">
+				<div class="d-flex justify-content-between">
+					<div class="p-3 text-light text-uppercase h2">${casa}</div>
+					<div class="p-3 text-light text-uppercase">--------</div>
+				</div>
+
+					<div class="p-1 mb-1">
+						<p class="m-2 text-light overflow-hidden">${apuesta}</p>
+						<div class="d-flex">
+							<div class="p-2 flex-fill overflow-hidden">
+								<div class="d-flex justify-content-between bg-dark mb-3 rounded">
+									<div class="p-2 text-light overflow-hidden">YES</div>
+									<div class="p-2 text-warning overflow-hidden">${yes}</div>
+								</div>
+							</div>
+						<div class="p-2 flex-fill overflow-hidden">
+							<div class="d-flex justify-content-between bg-dark rounded">
+								<div class="p-2 text-light overflow-hidden">NO</div>
+								<div class="p-2 text-warning overflow-hidden">${no}</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				`;
+      }
+
+      function scoreExact(casa, apuesta, marcador, cuota) {
+        return `
+				<div class="container mt-3 rounded" style="background-color: rgba(4, 55, 57, 0.941)">
+				<div class="d-flex justify-content-between">
+					<div class="p-3 text-light text-uppercase h2">${casa}</div>
+					<div class="p-3 text-light text-uppercase">--------</div>
+				</div>
+
+					<div class="p-1 mb-1">
+						<p class="m-2 text-light overflow-hidden">${apuesta}</p>
+						<div class="d-flex">
+							<div class="p-2 flex-fill overflow-hidden">
+								<div class="d-flex justify-content-between bg-dark mb-3 rounded">
+									<div class="p-2 text-light overflow-hidden">${marcador}</div>
+									<div class="p-2 text-warning overflow-hidden">${cuota}</div>
+								</div>
+							</div>
+					</div>
+				</div>
+				`;
+      }
+
+    
+    </script>
+  </body>
+</html>
