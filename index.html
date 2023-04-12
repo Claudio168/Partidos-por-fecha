@@ -59,7 +59,7 @@
 
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="nav nav-tabs flex-column flex-sm-row" role="tablist" >
-            <li class="nav-item" onclick="functionAll()">
+            <li class="nav-item" onclick="mostrarDatos()">
               <a class="nav-link active" data-bs-toggle="tab" href="">All</a>
             </li>
             <li class="nav-item" onclick="functionLive()">
@@ -79,6 +79,9 @@
         </div>
       </nav>
       <br>
+      <div class="loader-container">
+        <div class="loader"></div>
+      </div>
       <main>
         <table
           id="tablaResul"
@@ -103,10 +106,6 @@
           </thead>
           <tbody id="Partidos"></tbody>
         </table>
-
-        <div class="loader-container">
-          <div class="loader"></div>
-        </div>
       </main>
     </div>
 
