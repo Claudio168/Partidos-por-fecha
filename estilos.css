@@ -47,3 +47,136 @@ td {
   width:  20px;
   height: 20px;
 }
+
+/* Estilos para DataTables en tonos oscuros con los cambios solicitados */
+
+.dataTables_wrapper {
+  background-color: #2f2f2f;
+  color: #d9d9d9;
+  font-size: 14px;
+}
+
+.dataTables_wrapper .dataTables_length select,
+.dataTables_wrapper .dataTables_filter input {
+  background-color: #4d4d4d;
+  color: #d9d9d9;
+  border: none;
+  border-radius: 4px;
+  margin: 15px; 
+
+}
+
+.dataTables_wrapper .dataTables_length label,
+.dataTables_wrapper .dataTables_filter label {
+  color: #d9d9d9;
+  margin: 15px; 
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+  color: #d9d9d9;
+  border: none;
+  background-color: #444; /* Cambiado color de fondo */
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+  background-color: #333; /* Cambiado color de fondo */
+  color: #d9d9d9;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+  color: #d9d9d9;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+  background-color: #1e90ff; /* Cambiado color de fondo */
+  color: #d9d9d9;
+}
+
+.dataTables_wrapper .dataTables_paginate .ellipsis {
+  color: #d9d9d9;
+}
+
+.dataTables_wrapper .dataTables_info {
+  color: #d9d9d9;
+}
+
+.dataTables_wrapper .dataTables_empty {
+  color: #d9d9d9;
+}
+
+.dataTables_wrapper .dataTables_processing {
+  color: #d9d9d9;
+}
+
+.dataTables_wrapper .dataTable thead th,
+.dataTables_wrapper .dataTable thead td {
+  border: none;
+  background-color: #2f2f2f;
+  color: #d9d9d9;
+}
+
+.dataTables_wrapper .dataTable thead th:active,
+.dataTables_wrapper .dataTable thead td:active {
+  background-color: #4d4d4d;
+}
+
+.dataTables_wrapper .dataTable tbody th,
+.dataTables_wrapper .dataTable tbody td {
+  border: none;
+  color: #d9d9d9;
+}
+
+.dataTables_wrapper .dataTable tbody tr.odd {
+  background-color: #3a3a3a;
+}
+
+.dataTables_wrapper .dataTable tbody tr.odd:hover {
+  background-color: #4d4d4d;
+}
+
+.dataTables_wrapper .dataTable tbody tr.even {
+  background-color: #2f2f2f;
+}
+
+.dataTables_wrapper .dataTable tbody tr.even:hover {
+  background-color: #4d4d4d;
+}
+
+.no-hover tbody tr:hover {
+  background-color: inherit;
+}
+
+.dark-screen {
+  background-color: #343a40;
+  color: #fff;
+}
+
+.dark-screen input[type="text"],
+.dark-screen a {
+  color: #fff;
+}
+
+.dark-screen a:hover {
+  background-color: #212529;
+}
+
+@media only screen and (max-width: 768px) {
+  .no-hover tbody tr:hover {
+    background-color: #f8f9fa;
+  }
+
+  .dark-screen {
+    background-color: #343a40;
+    color: #fff;
+  }
+}
+.dataTables_wrapper tbody td:nth-child(6),
+.dataTables_wrapper tbody td:nth-child(9),
+.dataTables_wrapper tbody td:nth-child(10),
+.dataTables_wrapper tbody td:nth-child(11)
+{
+  text-align: center;
+}
+
+
+
