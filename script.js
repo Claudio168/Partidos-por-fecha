@@ -18,6 +18,23 @@ datepicker.addEventListener("change", function () {
 
 const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
+
+function fetchData() {
+  return fetch(url, {
+    method: "GET",
+    headers: {
+      "x-rapidapi-host": "v3.football.api-sports.io",
+      "x-rapidapi-key": "22240ee711b7e2faa6b80fa55809e7db",
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Datos desde la API:", data);
+      return data.response;
+    });
+}
+
+
 function functionAll() {
   url = `https://v3.football.api-sports.io/fixtures?date=${fecha}&timezone=${timeZone}`;
 
@@ -110,7 +127,7 @@ function functionAll() {
           }</td>
           <td><a href="pronosticos.html?fixture=${
             element.fixture.id
-          }">Ver</a></td>
+          }&idhome=${element.teams.home.id}&idaway=${element.teams.away.id}">Ver</a></td>
           <td><a href="odds.html?fixture=${element.fixture.id}&home=${
             element.teams.home.name
           }&away=${element.teams.away.name}">Cuota</a></td>
@@ -534,19 +551,7 @@ function functionNext() {
   mostrarDatos();
 }
 
-function fetchData() {
-  return fetch(url, {
-    method: "GET",
-    headers: {
-      "x-rapidapi-host": "v3.football.api-sports.io",
-      "x-rapidapi-key": "22240ee711b7e2faa6b80fa55809e7db",
-    },
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("Datos desde la API:", data);
-      return data.response;
-    });
-}
-
 functionAll();
+
+
+

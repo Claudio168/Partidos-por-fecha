@@ -1,6 +1,9 @@
 body{
   background-color: #2f2f2f;
 }
+
+
+
 .menu-navegacion {
   display: flex;
   align-items: left;
@@ -187,4 +190,8 @@ td img {
 }
 
 
+table.dataTable tr.dtrg-group th {
+  background-color: #9e1212 !important;
+  color: #f8f4f4 !important;
+}
 
