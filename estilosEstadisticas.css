@@ -1,0 +1,97 @@
+/* efecto de carga*/
+
+  
+ 
+    
+    
+    
+    
+   
+  div {
+      margin-top: 3%;
+      margin-bottom: 3%;
+  }
+  h1{
+    color: #fff;
+  }
+  
+  h2{
+      color: #fff;
+      margin-top: 8%;
+      margin-bottom: 2%;
+      text-align: center;
+    
+  }
+  p{
+    color: #fff;
+  }
+  .form-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  td:first-child {
+    text-align: left;
+  }
+
+  .table-container {
+    overflow-x: auto;
+    width: 100%;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  th,
+  td {
+    border: 1px solid #ccc;
+    padding: 8px;
+  }
+
+  th.sticky,
+  td.sticky {
+    left: 0;
+    position: sticky;
+    width: 100px; /* Establecer el ancho fijo de la primera columna */
+    z-index: 1;
+  }
+
+  th.sticky:before,
+  td.sticky:before {
+    content: "";
+    display: block;
+    height: 100%;
+    left: -1px;
+    position: absolute;
+    top: -1px;
+    width: 100%;
+    z-index: -1;
+  }
+  .buttonIndex {
+    text-align: center; /* Centrar el texto horizontalmente */
+    line-height: 20px; /* Establecer la altura de línea */
+    height: 20px; /* Establecer la altura del botón */
+    width: 20px; /* Establecer el ancho del botón */
+    padding: 0; /* Añadir un poco de espacio entre el borde y el texto */
+    border: none; /* Eliminar el borde */
+    margin: 5px;
+    color: #fff; /* Establecer el color del texto */
+    font-size: 12px; /* Establecer el tamaño de fuente */
+  }
+  .forma {
+    width: 100px;
+    margin: auto;
+    white-space: nowrap;
+  }
+  @media (min-width: 768px) {
+    img {
+      margin: 2px;
+    }
+  }
+  
+  
+  
+  
+  

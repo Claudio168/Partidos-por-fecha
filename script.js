@@ -46,7 +46,7 @@ function functionAll() {
         const parsed_json = JSON.parse(storedData);
 
         if (fecha === parsed_json.fecha) {
-          const parsedData = JSON.parse(storedData);
+          //const parsedData = JSON.parse(storedData);
           console.log("Datos desde localstorage");
           resolve(parsed_json.data);
         } else {
@@ -131,7 +131,7 @@ function functionAll() {
           <td><a href="odds.html?fixture=${element.fixture.id}&home=${
             element.teams.home.name
           }&away=${element.teams.away.name}">Cuota</a></td>
-        `;
+          <td><a href="estadisticas.html?league=${element.league.id}&home=${element.teams.home.id}&away=${element.teams.away.id}&season=${element.league.season}&nomHome=${element.teams.home.name}&nomAway=${element.teams.away.name}">Estadísticas</a></td>        `;
           partidos.appendChild(tr);
         });
 
@@ -260,7 +260,7 @@ function functionLive() {
         <td><a href="odds.html?fixture=${element.fixture.id}&home=${
           element.teams.home.name
         }&away=${element.teams.away.name}">Cuota</a></td>
-      `;
+        <td><a href="estadisticas.html?league=${element.league.id}&home=${element.teams.home.id}&away=${element.teams.away.id}&season=${element.league.season}&nomHome=${element.teams.home.name}&nomAway=${element.teams.away.name}">Estadísticas</a></td>      `;
         partidos.appendChild(tr);
       });
 
@@ -389,7 +389,7 @@ function functionFinished() {
         <td><a href="odds.html?fixture=${element.fixture.id}&home=${
           element.teams.home.name
         }&away=${element.teams.away.name}">Cuota</a></td>
-      `;
+        <td><a href="estadisticas.html?league=${element.league.id}&home=${element.teams.home.id}&away=${element.teams.away.id}&season=${element.league.season}&nomHome=${element.teams.home.name}&nomAway=${element.teams.away.name}">Estadísticas</a></td>      `;
         partidos.appendChild(tr);
       });
 
@@ -518,6 +518,7 @@ function functionNext() {
         <td><a href="odds.html?fixture=${element.fixture.id}&home=${
           element.teams.home.name
         }&away=${element.teams.away.name}">Cuota</a></td>
+        <td><a href="estadisticas.html?league=${element.league.id}&home=${element.teams.home.id}&away=${element.teams.away.id}&season=${element.league.season}&nomHome=${element.teams.home.name}&nomAway=${element.teams.away.name}">Estadísticas</a></td>
       `;
         partidos.appendChild(tr);
       });

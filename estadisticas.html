@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estadísticas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+          .collapsing {
+             transition-duration: 1s;
+          }
+  
+    </style>
+    <link rel="stylesheet" href="estilosEstadisticas.css" />
+    <script
+      type="text/javascript"
+      src="https://www.gstatic.com/charts/loader.js"
+    ></script>
+</head>
+<body style="background-color: black;">
+    <div class="container">
+       
+        <div id="selecEquipos">
+
+        </div>
+        <div>
+          <h1 style="text-align: center;" id="team-name"></h1>
+          <p style="text-align: center;"  id="season"></p>
+        </div>
+  
+        <div class="tabla-wrapper">
+          <div id="tabla"></div>
+          <div id="tabla2"></div>
+          <div id="tabla3"></div>
+          <div id="tabla4"></div>
+        </div>
+  
+        <div class="goles-wrapper">
+          <div id="golesMarcados"></div>
+  
+          <div id="chart_div"></div>
+        </div>
+  
+        <div class="goles-wrapper">
+          <div id="golesContra"></div>
+  
+          <div id="chart_div2" style="width: 100%; height: 400px"></div>
+        </div>
+  
+        <div class="rachas-wrapper">
+          <div id="rachas"></div>
+          <div id="mejoresVictorias"></div>
+          <div id="peorDerrota"></div>
+          <div id="maxAnotaciones"></div>
+          <div id="maxGolesencajados"></div>
+        </div>
+  
+        <div class="canasta-limpia-wrapper">
+          <div id="canastaLimpia"></div>
+          <div id="noAnoto"></div>
+        </div>
+  
+        <div class="penales-wrapper">
+          <div id="penales"></div>
+        </div>
+  
+        <div id="formaciones-wrapper"></div>
+  
+        <div class="tarjetas-wrapper">
+          <h2 style="text-align: center" id="tarjetas"></h2>
+  
+          <div id="chart_div3" style="width: 100%; height: 400px"></div>
+  
+        <div id="chart_div4" style="width: 100%; height: 400px"></div>
+
+
+        <div class="container mt-10">
+            <h2>TABLA DE POSICIONES</h2>
+            <div class="table-container">
+              <table
+                id="tabla-posiciones"
+                class="table table-striped table-dark table-responsive text-center"
+              ></table>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Obtener el valor del parámetro fixture desde la URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const league = urlParams.get('league');
+            const season = urlParams.get('season');
+            const idHome = urlParams.get('home');
+            const idAway = urlParams.get('away');
+            const nomHome = urlParams.get('nomHome');
+            const nomAway = urlParams.get('nomAway');
+
+            let select = document.createElement("select");
+            select.setAttribute("name", "equipos");
+            select.setAttribute("id", "equipos");
+
+            let option1 = document.createElement("option");
+            option1.setAttribute("value", idHome);
+            let option1Text = document.createTextNode(nomHome);
+            option1.appendChild(option1Text);
+            select.appendChild(option1);
+
+            let option2 = document.createElement("option");
+            option2.setAttribute("value", idAway);
+            let option2Text = document.createTextNode(nomAway);
+            option2.appendChild(option2Text);
+            select.appendChild(option2);
+            let miDiv = document.getElementById("selecEquipos");
+            miDiv.appendChild(select);
+            
+            document.getElementById("equipos").addEventListener("change", function(){
+                let idEquipo = document.getElementById("equipos").value
+                consultarEstadisticas(idEquipo)
+            })
+
+          
+        function consultarEstadisticas(equipo) {
+       
+        fetch(
+          `https://v3.football.api-sports.io/teams/statistics?season=${season}&team=${equipo}&league=${league}`,
+          {
+            method: "GET",
+            headers: {
+              "x-rapidapi-host": "v3.football.api-sports.io",
+              "x-rapidapi-key": "22240ee711b7e2faa6b80fa55809e7db",
+            },
+          }
+        )
+          .then((response) => {
+            return response.json(); // parsear la respuesta a formato JSON
+          })
+          .then((data) => {
+            const teamName = document.getElementById("team-name");
+            teamName.textContent = data.response.team.name;
+
+            const season = document.getElementById("season");
+            season.textContent = `${data.response.league.name} - ${data.response.league.country} - ${data.response.league.season}`;
+
+            const tabla = document.getElementById("tabla");
+            tabla.innerHTML = `
+    
+                
+                    <table style="width: 100%; max-width: 800px; margin: 0 auto; background-color: #160451; color: #C0C0C0; font-size: 18px; border-collapse: collapse;">
+           
+                        <tr>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" rowspan="2">Partidos Jugados</th>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Local</th>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Visita</th>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Total</th>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;">${data.response.fixtures.played.home}</td>
+                            <td style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;">${data.response.fixtures.played.away}</td>
+                            <td style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;">${data.response.fixtures.played.total}</td>
+                        </tr>
+                        
+                        
+                    </table>
+                        
+                     `;
+
+            const tabla2 = document.getElementById("tabla2");
+            tabla2.innerHTML = `
+    
+                    <table style="width: 100%; max-width: 800px; margin: 0 auto; background-color: #160451; color: #C0C0C0; font-size: 18px; border-collapse: collapse;">
+           
+                        <tr>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" rowspan="2">Partidos Ganados</th>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Local</th>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Visita</th>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Total</th>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;">${data.response.fixtures.wins.home}</td>
+                            <td style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;">${data.response.fixtures.wins.away}</td>
+                            <td style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;">${data.response.fixtures.wins.total}</td>
+                        </tr>
+                        
+                        
+                    </table>
+      
+                     `;
+
+            const tabla3 = document.getElementById("tabla3");
+            tabla3.innerHTML = `
+    
+                    <table style="width: 100%; max-width: 800px; margin: 0 auto; background-color: #160451;  color: #C0C0C0; font-size: 18px; border-collapse: collapse;">
+           
+                        <tr>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" rowspan="2">Partidos Empatados</th>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Local</th>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Visita</th>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Total</th>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;">${data.response.fixtures.draws.home}</td>
+                            <td style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;">${data.response.fixtures.draws.away}</td>
+                            <td style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;">${data.response.fixtures.draws.total}</td>
+                        </tr>
+                        
+                        
+                    </table>
+    
+                     `;
+            const tabla4 = document.getElementById("tabla4");
+            tabla4.innerHTML = `
+    
+                    <table style="width: 100%; max-width: 800px; margin: 0 auto; background-color: #160451; color: #C0C0C0; font-size: 18px; border-collapse: collapse;">
+           
+                        <tr>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" rowspan="2">Partidos Perdidos</th>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Local</th>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Visita</th>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Total</th>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;">${data.response.fixtures.loses.home}</td>
+                            <td style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;">${data.response.fixtures.loses.away}</td>
+                            <td style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;">${data.response.fixtures.loses.total}</td>
+                        </tr>
+                        
+                        
+                    </table>
+                        
+                     `;
+            //Goles a favor
+            const golesMarcados = document.getElementById("golesMarcados");
+            golesMarcados.innerHTML = `
+    
+                    <h2>GOLES A FAVOR</h2>
+                    <table style="width: 100%; max-width: 800px; margin: 0 auto; background-color: #160451; color: #C0C0C0; font-size: 18px; border-collapse: collapse;">
+           
+                        <tr>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" rowspan="2">Goles Marcados</th>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Local</th>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Visita</th>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Total</th>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;">${data.response.goals.for.total.home} (${data.response.goals.for.average.home})</td>
+                            <td style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;">${data.response.goals.for.total.away} (${data.response.goals.for.average.away})</td>
+                            <td style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;">${data.response.goals.for.total.total} (${data.response.goals.for.average.total})</td>
+                        </tr>
+                        
+                        
+                    </table>
+                        
+                     `;
+            //grafico
+            google.charts.load("current", { packages: ["corechart"] });
+            google.charts.setOnLoadCallback(drawChart);
+
+            function drawChart() {
+              var dataChart = google.visualization.arrayToDataTable([
+                ["tramo", "Goles", { role: "annotation" }],
+                [
+                  "0-15",
+                  data.response.goals.for.minute["0-15"].total,
+                  data.response.goals.for.minute["0-15"].total,
+                ],
+                [
+                  "16-30",
+                  data.response.goals.for.minute["16-30"].total,
+                  data.response.goals.for.minute["16-30"].total,
+                ],
+                [
+                  "31-45",
+                  data.response.goals.for.minute["31-45"].total,
+                  data.response.goals.for.minute["31-45"].total,
+                ],
+                [
+                  "46-60",
+                  data.response.goals.for.minute["46-60"].total,
+                  data.response.goals.for.minute["46-60"].total,
+                ],
+                [
+                  "61-75",
+                  data.response.goals.for.minute["61-75"].total,
+                  data.response.goals.for.minute["61-75"].total,
+                ],
+                [
+                  "76-90",
+                  data.response.goals.for.minute["76-90"].total,
+                  data.response.goals.for.minute["76-90"].total,
+                ],
+                [
+                  "91-105",
+                  data.response.goals.for.minute["91-105"].total,
+                  data.response.goals.for.minute["91-105"].total,
+                ],
+                [
+                  "106-120",
+                  data.response.goals.for.minute["106-120"].total,
+                  data.response.goals.for.minute["106-120"].total,
+                ],
+              ]);
+
+              var options = {
+                title: "Goles a FAVOR en tramos de 15 min",
+                chartArea: { width: "50%" },
+                hAxis: {
+                  title: "Tramos",
+                  textStyle: { color: "#fff" }
+                  
+                },
+                vAxis: {
+                  title: "Goles a FAVOR",
+                  minValue: 0,
+                  titleTextStyle: { color: "#fff" } // estilo de texto del título de vAxis
+                },
+                bars: "vertical",
+                colors: ["#1F618D"], // arreglo de colores personalizados
+                height: 400,
+                backgroundColor: { fill:'black' }, // color de fondo del gráfico
+                titleTextStyle: { color: "#fff" } // estilo de texto del título del gráfico
+              };
+
+              var chart = new google.visualization.ColumnChart(
+                document.getElementById("chart_div")
+              );
+              // Dibujar el gráfico por primera vez
+              chart.draw(dataChart, options);
+
+              // Actualizar el gráfico al cambiar el tamaño de la ventana del navegador
+              window.addEventListener("resize", function () {
+                options.chartArea.width =
+                  window.innerWidth < 600 ? "100%" : "50%";
+                chart.draw(dataChart, options);
+              });
+            }
+
+            //Goles en contra
+            const golesContra = document.getElementById("golesContra");
+            golesContra.innerHTML = `
+    
+                    <h2>GOLES EN CONTRA</h2>
+                    <table style="width: 100%; max-width: 800px; margin: 0 auto; background-color: #160451; color: #C0C0C0; font-size: 18px; border-collapse: collapse;">
+           
+                        <tr>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" rowspan="2">Goles Recibidos</th>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Local</th>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Visita</th>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Total</th>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;">${data.response.goals.against.total.home} (${data.response.goals.against.average.home})</td>
+                            <td style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;">${data.response.goals.against.total.away} (${data.response.goals.against.average.away})</td>
+                            <td style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;">${data.response.goals.against.total.total} (${data.response.goals.against.average.total})</td>
+                        </tr>
+                        
+                        
+                    </table>`;
+            //grafico
+            google.charts.load("current", { packages: ["corechart"] });
+            google.charts.setOnLoadCallback(drawChart2);
+
+            function drawChart2() {
+              var dataChart2 = google.visualization.arrayToDataTable([
+                ["Mes", "Goles", { role: "annotation" }],
+                [
+                  "0-15",
+                  data.response.goals.against.minute["0-15"].total,
+                  data.response.goals.against.minute["0-15"].total,
+                ],
+                [
+                  "16-30",
+                  data.response.goals.against.minute["16-30"].total,
+                  data.response.goals.against.minute["16-30"].total,
+                ],
+                [
+                  "31-45",
+                  data.response.goals.against.minute["31-45"].total,
+                  data.response.goals.against.minute["31-45"].total,
+                ],
+                [
+                  "46-60",
+                  data.response.goals.against.minute["46-60"].total,
+                  data.response.goals.against.minute["46-60"].total,
+                ],
+                [
+                  "61-75",
+                  data.response.goals.against.minute["61-75"].total,
+                  data.response.goals.against.minute["61-75"].total,
+                ],
+                [
+                  "76-90",
+                  data.response.goals.against.minute["76-90"].total,
+                  data.response.goals.against.minute["76-90"].total,
+                ],
+                [
+                  "91-105",
+                  data.response.goals.against.minute["91-105"].total,
+                  data.response.goals.against.minute["91-105"].total,
+                ],
+                [
+                  "106-120",
+                  data.response.goals.against.minute["106-120"].total,
+                  data.response.goals.against.minute["106-120"].total,
+                ],
+              ]);
+
+              var options = {
+                title: "Goles en CONTRA en tramos de 15 min",
+                chartArea: { width: "50%" },
+                hAxis: {
+                  title: "Tramos",
+                  textStyle: { color: "#fff" }
+                },
+                vAxis: {
+                  title: "Goles en CONTRA",
+                  minValue: 0,
+                  titleTextStyle: { color: "#fff" } // estilo de texto del título de vAxis
+                },
+                bars: "vertical",
+                colors: ["#1F618D"], // arreglo de colores personalizados
+                height: 400,
+                backgroundColor: { fill:'black' }, // color de fondo del gráfico
+                titleTextStyle: { color: "#fff" } // estilo de texto del título del gráfico
+              };
+
+              var chart2 = new google.visualization.ColumnChart(
+                document.getElementById("chart_div2")
+              );
+              // Dibujar el gráfico por primera vez
+              chart2.draw(dataChart2, options);
+
+              // Actualizar el gráfico al cambiar el tamaño de la ventana del navegador
+              window.addEventListener("resize", function () {
+                options.chartArea.width =
+                  window.innerWidth < 600 ? "100%" : "50%";
+                chart2.draw(dataChart2, options);
+              });
+            }
+
+            //Rachas
+            const rachas = document.getElementById("rachas");
+            rachas.innerHTML = `
+                    <h2>MEJORES RACHAS</h2>
+                    <table style="width: 100%; max-width: 800px; margin: 0 auto; background-color: #160451; color: #C0C0C0; font-size: 18px; border-collapse: collapse;">
+           
+                        <tr>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" rowspan="2">Rachas</th>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Triunfos</th>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Empates</th>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Derrotas </th>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;">${data.response.biggest.streak.wins}</td>
+                            <td style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;">${data.response.biggest.streak.draws}</td>
+                            <td style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;">${data.response.biggest.streak.loses}</td>
+                        </tr>
+                        
+                        
+                    </table>
+                        
+                     `;
+
+            //La mejores victorias
+
+            const mejoresVictorias =
+              document.getElementById("mejoresVictorias");
+            mejoresVictorias.innerHTML = `
+    
+                    <table style="width: 100%; max-width: 800px; margin: 0 auto; background-color: #160451; color: #C0C0C0; font-size: 18px; border-collapse: collapse;">
+           
+                        <tr>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" rowspan="2">La mejor victoria</th>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Local</th>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Visita</th>
+                           
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;">${data.response.biggest.wins.home}</td>
+                            <td style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;">${data.response.biggest.wins.away}</td>
+                           
+                        </tr>
+                        
+                        
+                    </table>
+                        
+                     `;
+            //La peor derrota
+
+            const peorDerrota = document.getElementById("peorDerrota");
+            peorDerrota.innerHTML = `
+    
+                    <table style="width: 100%; max-width: 800px; margin: 0 auto; background-color: #160451; color: #C0C0C0; font-size: 18px; border-collapse: collapse;">
+           
+                        <tr>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" rowspan="2">La peor derrota</th>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Local</th>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Visita</th>
+                           
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;">${data.response.biggest.loses.home}</td>
+                            <td style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;">${data.response.biggest.loses.away}</td>
+                           
+                        </tr>
+                        
+                        
+                    </table>
+                        
+                     `;
+            //maximas anotaciones
+            const maxAnotaciones = document.getElementById("maxAnotaciones");
+            maxAnotaciones.innerHTML = `
+    
+                    <table style="width: 100%; max-width: 800px; margin: 0 auto; background-color: #160451; color: #C0C0C0; font-size: 18px; border-collapse: collapse;">
+           
+                        <tr>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" rowspan="2">Máxima anotación</th>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Local</th>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Visita</th>
+                           
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;">${data.response.biggest.goals.for.home}</td>
+                            <td style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;">${data.response.biggest.goals.for.away}</td>
+                           
+                        </tr>
+                        
+                        
+                    </table>
+                        
+                     `;
+            //Max goles encajados
+            const maxGolesencajados =
+              document.getElementById("maxGolesencajados");
+            maxGolesencajados.innerHTML = `
+    
+                    <table style="width: 100%; max-width: 800px; margin: 0 auto; background-color: #160451; color: #C0C0C0; font-size: 18px; border-collapse: collapse;">
+           
+                        <tr>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" rowspan="2">Máximo número de goles encajados</th>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Local</th>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Visita</th>
+                           
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;">${data.response.biggest.goals.against.home}</td>
+                            <td style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;">${data.response.biggest.goals.against.away}</td>
+                           
+                        </tr>
+                        
+                        
+                    </table>
+                        
+                     `;
+            //canasta limpia
+            const canastaLimpia = document.getElementById("canastaLimpia");
+            canastaLimpia.innerHTML = `
+                    <h2>CANASTA LIMPIA</h2>
+                    <table style="width: 100%; max-width: 800px; margin: 0 auto; background-color: #160451; color: #C0C0C0; font-size: 18px; border-collapse: collapse;">
+           
+                        <tr>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" rowspan="2">Canasta limpia</th>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Local</th>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Visita</th>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Total</th>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;">${data.response.clean_sheet.home}</td>
+                            <td style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;">${data.response.clean_sheet.away}</td>
+                            <td style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;">${data.response.clean_sheet.total}</td>
+                        </tr>
+                        
+                        
+                    </table>
+    
+                     `;
+            //No anoto
+            const noAnoto = document.getElementById("noAnoto");
+            noAnoto.innerHTML = `
+    
+                    <table style="width: 100%; max-width: 800px; margin: 0 auto; background-color: #160451; color: #C0C0C0; font-size: 18px; border-collapse: collapse;">
+           
+                        <tr>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" rowspan="2">No pudo Anotar</th>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Local</th>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Visita</th>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Total</th>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;">${data.response.failed_to_score.home}</td>
+                            <td style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;">${data.response.failed_to_score.away}</td>
+                            <td style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;">${data.response.failed_to_score.total}</td>
+                        </tr>
+                        
+                        
+                    </table>
+    
+                     `;
+            //penales
+
+            const penales = document.getElementById("penales");
+            penales.innerHTML = `
+                    <h2>PENALES</h2>
+                    <table style="width: 100%; max-width: 800px; margin: 0 auto; background-color: #160451; color: #C0C0C0; font-size: 18px; border-collapse: collapse;">
+           
+                        <tr>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" rowspan="2">Penales</th>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Anotados</th>
+                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Perdidos</th>
+                           
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;">${data.response.penalty["scored"].total}</td>
+                            <td style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;">${data.response.penalty["missed"].total}</td>
+                           
+                        </tr>
+                        
+                        
+                    </table>
+                        
+                     `;
+            //Formaciones
+            const formacionesWrapper = document.getElementById(
+              "formaciones-wrapper"
+            );
+            formacionesWrapper.innerHTML = `
+                    <h2 style="text-align: center;">FORMACIONES</h2>
+                    <div style="width: 100%; max-width: 800px; margin: 0 auto;">
+                        <table style="width: 100%; background-color: #160451; color: #C0C0C0; font-size: 18px; border-collapse: collapse;">
+                        
+                                <tr>
+                                    <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;">Formación</th>
+                                    <th  style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;">Jugados</th>
+                                </tr>
+                    
+                            
+                                ${data.response.lineups
+                                  .map(
+                                    (lineup) => `
+                                <tr>
+                                    <td  style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;">${lineup.formation}</td>
+                                    <td  style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;">${lineup.played}</td>
+                                </tr>
+                                `
+                                  )
+                                  .join("")}
+                        
+                        </table>
+                    </div>
+                    `;
+
+            document.getElementById("tarjetas").innerHTML = "TARJETAS";
+            //grafico
+            google.charts.load("current", { packages: ["corechart"] });
+            google.charts.setOnLoadCallback(drawChart3);
+
+            function drawChart3() {
+              var dataChart3 = google.visualization.arrayToDataTable([
+                ["tramo", "Tarjetas Amarilla", { role: "annotation" }],
+                [
+                  "0-15",
+                  data.response.cards.yellow["0-15"].total,
+                  data.response.cards.yellow["0-15"].total,
+                ],
+                [
+                  "16-30",
+                  data.response.cards.yellow["16-30"].total,
+                  data.response.cards.yellow["16-30"].total,
+                ],
+                [
+                  "31-45",
+                  data.response.cards.yellow["31-45"].total,
+                  data.response.cards.yellow["31-45"].total,
+                ],
+                [
+                  "46-60",
+                  data.response.cards.yellow["46-60"].total,
+                  data.response.cards.yellow["46-60"].total,
+                ],
+                [
+                  "61-75",
+                  data.response.cards.yellow["61-75"].total,
+                  data.response.cards.yellow["61-75"].total,
+                ],
+                [
+                  "76-90",
+                  data.response.cards.yellow["76-90"].total,
+                  data.response.cards.yellow["76-90"].total,
+                ],
+                [
+                  "91-105",
+                  data.response.cards.yellow["91-105"].total,
+                  data.response.cards.yellow["91-105"].total,
+                ],
+                [
+                  "106-120",
+                  data.response.cards.yellow["106-120"].total,
+                  data.response.cards.yellow["106-120"].total,
+                ],
+              ]);
+
+              var options = {
+                title: "Tarjetas AMARILLAS en tramo de 15 min",
+                chartArea: { width: "50%" },
+                hAxis: {
+                  title: "Tramos",
+                  textStyle: { color: "#fff" }
+                },
+                vAxis: {
+                  title: "Tarjetas Amarilla",
+                  minValue: 0,
+                  titleTextStyle: { color: "#fff" } // estilo de texto del título de vAxis
+                },
+                bars: "vertical",
+                colors: ["#1F618D"], // arreglo de colores personalizados
+                height: 400,
+                backgroundColor: { fill:'black' }, // color de fondo del gráfico
+                titleTextStyle: { color: "#fff" } // estilo de texto del título del gráfico
+              };
+
+              var chart3 = new google.visualization.ColumnChart(
+                document.getElementById("chart_div3")
+              );
+              // Dibujar el gráfico por primera vez
+              chart3.draw(dataChart3, options);
+
+              // Actualizar el gráfico al cambiar el tamaño de la ventana del navegador
+              window.addEventListener("resize", function () {
+                options.chartArea.width =
+                  window.innerWidth < 600 ? "100%" : "50%";
+                chart3.draw(dataChart3, options);
+              });
+            }
+
+            //grafico
+
+            google.charts.load("current", { packages: ["corechart"] });
+            google.charts.setOnLoadCallback(drawChart4);
+
+            function drawChart4() {
+              var dataChart4 = google.visualization.arrayToDataTable([
+                ["tramo", "Tarjetas Rojas", { role: "annotation" }],
+                [
+                  "0-15",
+                  data.response.cards.red["0-15"].total,
+                  data.response.cards.red["0-15"].total,
+                ],
+                [
+                  "16-30",
+                  data.response.cards.red["16-30"].total,
+                  data.response.cards.red["16-30"].total,
+                ],
+                [
+                  "31-45",
+                  data.response.cards.red["31-45"].total,
+                  data.response.cards.red["31-45"].total,
+                ],
+                [
+                  "46-60",
+                  data.response.cards.red["46-60"].total,
+                  data.response.cards.red["46-60"].total,
+                ],
+                [
+                  "61-75",
+                  data.response.cards.red["61-75"].total,
+                  data.response.cards.red["61-75"].total,
+                ],
+                [
+                  "76-90",
+                  data.response.cards.red["76-90"].total,
+                  data.response.cards.red["76-90"].total,
+                ],
+                [
+                  "91-105",
+                  data.response.cards.red["91-105"].total,
+                  data.response.cards.red["91-105"].total,
+                ],
+                [
+                  "106-120",
+                  data.response.cards.red["106-120"].total,
+                  data.response.cards.red["106-120"].total,
+                ],
+              ]);
+
+              var options = {
+                title: "Tarjetas ROJAS en tramo de 15 min",
+                chartArea: { width: "50%" },
+                hAxis: {
+                  title: "Tramos",
+                  textStyle: { color: "#fff" }
+                },
+                vAxis: {
+                  title: "Tarjetas Rojas",
+                  minValue: 0,
+                  titleTextStyle: { color: "#fff" } // estilo de texto del título de vAxis
+                },
+                bars: "vertical",
+                colors: ["#1F618D"], // arreglo de colores personalizados
+                height: 400,
+                backgroundColor: { fill:'black' }, // color de fondo del gráfico
+                titleTextStyle: { color: "#fff" } // estilo de texto del título del gráfico
+              };
+
+              var chart4 = new google.visualization.ColumnChart(
+                document.getElementById("chart_div4")
+              );
+              chart4.draw(dataChart4, options);
+              // Dibujar el gráfico por primera vez
+              chart4.draw(dataChart4, options);
+
+              // Actualizar el gráfico al cambiar el tamaño de la ventana del navegador
+              window.addEventListener("resize", function () {
+                options.chartArea.width =
+                  window.innerWidth < 600 ? "100%" : "50%";
+                chart4.draw(dataChart4, options);
+              });
+            }
+
+          
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+
+    consultarEstadisticas(idHome)
+    </script>
+
+<script>
+    let url =
+      `https://v3.football.api-sports.io/standings?league=${league}&season=${season}`;
+
+    //crear una función que retorne una llamada api con la función fetch
+    function fetchData() {
+      return fetch(url, {
+        method: "GET",
+        headers: {
+          "x-rapidapi-host": "v3.football.api-sports.io",
+          "x-rapidapi-key": "22240ee711b7e2faa6b80fa55809e7db",
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Datos desde la API:", data);
+          return data.response;
+        });
+    }
+
+    //Crear función que retorne una promesa para conseguir los datos
+    function getData() {
+      return new Promise((resolve, reject) => {
+        const storedData = localStorage.getItem("tablaposiciones"+league+season);
+
+        if (storedData) {
+          const parsed_json = JSON.parse(storedData);
+          const horaActual = new Date().getTime();
+
+          if (parsed_json.hora + 3600000 > horaActual) {
+            console.log("Datos desde localstorage");
+            resolve(parsed_json.data);
+          } else {
+            fetchData()
+              .then((data) => {
+                const horaActual = new Date().getTime();
+                const newData = { hora: horaActual, data };
+                let nomdatos = "tablaposiciones"+league+season;
+                localStorage.setItem(nomdatos, JSON.stringify(newData));
+                resolve(data);
+              })
+              .catch((err) => reject(err));
+          }
+        } else {
+          fetchData()
+            .then((data) => {
+              const horaActual = new Date().getTime();
+              const newData = { hora: horaActual, data };
+              let nomdatos = "tablaposiciones"+league+season;
+              localStorage.setItem(nomdatos, JSON.stringify(newData));
+              resolve(data);
+            })
+            .catch((err) => reject(err));
+        }
+      });
+    }
+    
+    //Crear función para mostrar los datos
+    function showData() {
+      getData()
+        .then((data) => {
+          const tablaPosiciones = document.getElementById("tabla-posiciones");
+          let estadisticas =
+            "<thead><tr><th class='sticky'>Equipo</th><th>J</th><th>G</th><th>E</th><th>P</th><th>GF</th><th>GC</th><th>DG</th><th>Puntos</th><th>Forma</th></tr></thead><tbody>";
+
+          data[0].league.standings[0].forEach((equipo, index) => {
+            const estadisticasEquipo = equipo.all;
+            const posicion = equipo.description?.includes("Relegation")
+              ? `<button data-bs-toggle="tooltip" data-bs-placement="top" title="${
+                  equipo.description
+                }" class="btn btn-danger rounded buttonIndex">${
+                  index + 1
+                }</button>`
+              : equipo.description
+              ? `<button data-bs-toggle="tooltip" data-bs-placement="top" title="${
+                  equipo.description
+                }" class="btn btn-success rounded buttonIndex">${
+                  index + 1
+                }</button>`
+              : `<button class="btn btn-warning rounded buttonIndex">${
+                  index + 1
+                }</button>`;
+
+            const forma = equipo.form
+              ?.split("")
+              .map((letter) => {
+                if (letter === "W") {
+                  return "<img src='verde.svg'  width='20' height='20'/>";
+                } else if (letter === "D") {
+                  return "<img src='gris.svg'  width='20' height='20'/>";
+                } else if (letter === "L") {
+                  return "<img src='rojo.svg'  width='20' height='20'/>";
+                } else {
+                  return "";
+                }
+              })
+              .join("");
+            /*Este código crea una cadena de texto que contiene una serie de imágenes que representan la forma de un equipo en una liga.
+
+                Primero, la variable forma se inicializa con el valor de la propiedad form del objeto equipo. La propiedad form representa la forma actual del equipo, que se describe mediante una serie de letras que representan victorias (W), empates (D) y derrotas (L).
+
+                A continuación, la cadena de texto se divide en una serie de caracteres individuales utilizando el método split(""), lo que crea una matriz de caracteres. Luego, se llama al método map en esta matriz para convertir cada letra en la correspondiente imagen que represente la forma del equipo.
+
+                Dentro de la función map, se comprueba el valor de cada letra y se devuelve la imagen correspondiente en función de la letra. Si la letra es una W, se devuelve una imagen verde, si es una D, se devuelve una imagen gris, si es una L, se devuelve una imagen roja, y si no es ninguna de estas, se devuelve una cadena vacía.
+
+                Finalmente, todas las imágenes devueltas por el método map se combinan en una única cadena utilizando el método join(""). La cadena resultante se asigna a la variable forma y se utiliza en la creación de la tabla de estadísticas de la liga.
+              */
+
+            estadisticas += `
+              <tr>
+              <td class="text-nowrap sticky" style="color: ${
+                    equipo.team.id == idHome || equipo.team.id == idAway ? "green" : ""
+                }">${posicion}<img src="${equipo.team.logo}" alt="" width="20" height="20"/>${equipo.team.name}</td>
+              <td>${estadisticasEquipo.played}</td>
+              <td>${estadisticasEquipo.win}</td>
+              <td>${estadisticasEquipo.draw}</td>
+              <td>${estadisticasEquipo.lose}</td>
+              <td>${estadisticasEquipo.goals.for}</td>
+              <td>${estadisticasEquipo.goals.against}</td>
+              <td>${equipo.goalsDiff}</td>
+              <td>${equipo.points}</td>
+              <td>
+                  <div class="form-group forma">
+                  ${forma}
+                  </div>
+              </td>
+              </tr>`;
+              console.log("idhome "+ idHome  + "id away " + idAway   +     " id desde foreach "+ equipo.team.id)
+          });
+
+          estadisticas += "</tbody>";
+          
+          /*Este código es una sección de JavaScript que está generando una tabla de posiciones para una liga de fútbol. Utiliza el método document.getElementById para obtener la tabla de posiciones en el HTML, y luego crea una cadena de caracteres que se agregará como contenido a esta tabla.
+
+          La cadena de caracteres se compone de dos partes: la primera es un encabezado de tabla, que define las columnas de la tabla, y la segunda es el cuerpo de la tabla, que contiene las filas de datos para cada equipo.
+
+          La segunda parte utiliza un bucle forEach para iterar sobre el arreglo de equipos en la liga de fútbol, y para cada equipo crea una fila de datos que se agregará a la tabla. La fila de datos incluye información como el nombre del equipo, el número de juegos, victorias, empates, derrotas, goles a favor, goles en contra, diferencia de goles, puntos y forma.
+
+          La forma se representa mediante una serie de imágenes que indican los resultados de los últimos juegos del equipo. Los botones se utilizan para agregar información adicional sobre si un equipo está en una posición de descenso o si está clasificando para un torneo.
+
+          En resumen, este código genera una tabla de posiciones para una liga de fútbol utilizando datos de una fuente externa, y la muestra en una página*/
+
+          // Insertar la tabla de estadísticas en el contenedor correspondiente
+          tablaPosiciones.innerHTML = estadisticas;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+
+    var tooltipTriggerList = [].slice.call(
+      document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    );
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+
+    showData();
+  </script>
+</body>
+</html>
