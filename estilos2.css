@@ -1,0 +1,280 @@
+body{
+    background-color: #2f2f2f;
+  }
+  
+  
+  
+  .menu-navegacion {
+    display: flex;
+    align-items: left;
+    background-color: #333;
+    color: azure;
+    padding: 10px;
+    margin-bottom: 1%;
+  }
+ 
+  
+  td img {
+    max-width: 2rem;
+    max-height: 2rem;
+  }
+  
+  
+  /* Estilos para DataTables en tonos oscuros */
+  
+  .dataTables_wrapper {
+    background-color: #2f2f2f;
+    color: #d9d9d9;
+    font-size: 14px;
+  }
+  
+  .dataTables_wrapper .dataTables_length select,
+  .dataTables_wrapper .dataTables_filter input {
+    background-color: #4d4d4d;
+    color: #d9d9d9;
+    border: none;
+    border-radius: 4px;
+    margin: 15px; 
+  
+  }
+  
+  .dataTables_wrapper .dataTables_length label,
+  .dataTables_wrapper .dataTables_filter label {
+    color: #d9d9d9;
+    margin: 15px; 
+  }
+  
+  .dataTables_wrapper .dataTables_paginate .paginate_button {
+    color: #d9d9d9;
+    border: none;
+    background-color: #f7f7f9; /* Cambiado color de fondo */  
+  }
+  
+  .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background-color: #1e0642; /* Cambiado color de fondo */
+    color: #d9d9d9;
+  }
+  
+  .dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+    
+    color: #d9d9d9;
+  }
+  
+  .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background-color: #c0a7aa; /* Cambiado color de fondo */
+    color: #d9d9d9;
+  } 
+  
+  .dataTables_wrapper .dataTables_paginate .ellipsis {
+    color: #fafafc;
+  }
+  
+  
+  .dataTables_wrapper .dataTables_info {
+    color: #d9d9d9;
+  }
+  
+  .dataTables_wrapper .dataTables_empty {
+    color: #d9d9d9;
+  }
+  
+  .dataTables_wrapper .dataTables_processing {
+    color: #d9d9d9;
+  }
+  
+  .dataTables_wrapper .dataTable thead th,
+  .dataTables_wrapper .dataTable thead td {
+    border: none;
+    background-color: #2f2f2f;
+    color: #d9d9d9;
+  }
+  
+  .dataTables_wrapper .dataTable thead th:active,
+  .dataTables_wrapper .dataTable thead td:active {
+    background-color: #4d4d4d;
+  }
+  
+  .dataTables_wrapper .dataTable tbody th,
+  .dataTables_wrapper .dataTable tbody td {
+    border: none;
+    color: #d9d9d9;
+  }
+  
+  .dataTables_wrapper .dataTable tbody tr.odd {
+    background-color: #3a3a3a;
+  }
+  
+  .dataTables_wrapper .dataTable tbody tr.odd:hover {
+    background-color: #4d4d4d;
+  }
+  
+  .dataTables_wrapper .dataTable tbody tr.even {
+    background-color: #2f2f2f;
+  }
+  
+  .dataTables_wrapper .dataTable tbody tr.even:hover {
+    background-color: #4d4d4d;
+  }
+  
+  .no-hover tbody tr:hover {
+    background-color: inherit;
+  }
+  
+  .dark-screen {
+    background-color: #343a40;
+    color: #fff;
+  }
+  
+  .dark-screen input[type="text"],
+  .dark-screen a {
+    color: #fff;
+  }
+  
+  .dark-screen a:hover {
+    background-color: #212529;
+  }
+  
+  @media only screen and (max-width: 768px) {
+    .no-hover tbody tr:hover {
+      background-color: #f8f9fa;
+    }
+  
+    .dark-screen {
+      background-color: #343a40;
+      color: #fff;
+    }
+    
+    .dataTables_wrapper .dataTables_filter input {
+      background-color: #343a40;;
+      color: #d9d9d9;
+      border: none;
+      border-radius: 4px;
+      margin-top: 1%;
+      width: 100%;
+  
+    }
+    
+  }
+  .dataTables_wrapper tbody td:nth-child(6),
+  .dataTables_wrapper tbody td:nth-child(9),
+  .dataTables_wrapper tbody td:nth-child(10),
+  .dataTables_wrapper tbody td:nth-child(11)
+  {
+    text-align: center;
+  }
+  
+  
+  table.dataTable tr.dtrg-group th {
+    background-color: #9e1212 !important;
+    color: #f8f4f4 !important;
+  }
+  
+
+
+  /* Estilos para el contenedor de la barra de navegación */
+  .menu-navegacion {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #333;
+      padding: 10px;
+    }
+    
+  
+    
+    /* Estilos para los selectores */
+    select:not([name="tablaResul_length"]) {
+      padding: 5px;
+      margin-right: 10px;
+      border-radius: 5px;
+      border: none;
+      max-width: 100%;
+      width: 100%;
+    }
+    
+    
+    
+    
+    /* Estilos para el botón de consulta */
+    #btn-consulta {
+      padding: 5px 10px;
+      border-radius: 5px;
+      border: none;
+      background-color: rgb(37, 194, 115);
+      color: #333;
+      cursor: pointer;
+      max-width: 100%;
+      width: 100%;
+    }
+    
+    /* Estilos para la opción de año actual */
+    #anioActual {
+      display: none;
+    }
+    /*estilos para la tabla de posiciones */
+    #wg-api-football-standings {
+      width: 100%;
+    }
+    #wg-api-football-standings {
+      font-size: 0.8em;
+    }
+    @media screen and (min-width: 768px) {
+      #wg-api-football-standings {
+        font-size: 1.2em;
+      }
+    }
+  
+    /* Estilos para pantallas pequeñas */
+    @media only screen and (max-width: 768px) {
+      /* Cambia el estilo del contenedor de la barra de navegación */
+      .menu-navegacion {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    
+      /* Establece el ancho de los selectores y el botón de consulta al 100% */
+      select,
+      #btn-consulta {
+        max-width: none;
+        width: 100%;
+      }
+    
+      /* Establece un margen inferior a los selectores y el botón de consulta */
+      select,
+      #btn-consulta {
+        margin-bottom: 10px;
+      }
+      
+    }
+    
+    /* Estilos para el botón de consulta */
+  #btn-consulta {
+      padding: 10px 20px;
+      border-radius: 15px;
+      border: none;
+      background-color: rgb(37, 194, 115);
+      color: #fff;
+      font-size: 16px;
+      font-weight: bold;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+      box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+    }
+    
+    #btn-consulta:hover {
+      background-color: #3e8e41;
+      box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
+    }
+    
+
+  h2{
+      margin-top: 8%;
+      margin-bottom: 2%;
+  }
+  
+  
+  
+  
+  
+  

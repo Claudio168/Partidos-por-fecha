@@ -553,6 +553,3 @@ function functionNext() {
 }
 
 functionAll();
-
-
-
