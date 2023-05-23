@@ -3,6 +3,12 @@ body{
 }
 
 
+.emoji {
+  font-size: 48px;
+}
+.emoji2 {
+  font-size: 15px;
+}
 
 .menu-navegacion {
   display: flex;

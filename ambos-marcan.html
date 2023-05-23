@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Over-under</title>
+    <title>Ambos-marcan</title>
     <!-- Importación de jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -98,14 +98,9 @@
               <th>Equipo Local</th>
               <th>Equipo Visita</th>
               <th style="background-color: blue; text-align: center;">1º Tiempo </th>
-              <td style="background-color: blue;">+0,5</td>
-              <td style="background-color: blue;">+1,5</td>
-              <td style="background-color: blue;">+2,5</td>
+              <td style="background-color: blue;">Ambos marcan</td>
               <th style="background-color: rgb(24, 166, 114); text-align: center;">Resultado Final</th>
-              <td style="background-color: rgb(24, 166, 114);">+2,5</td>
-              <td style="background-color: rgb(24, 166, 114);">+3,5</td>
-              <td style="background-color: rgb(24, 166, 114);">+4,5</td>
-            
+              <td style="background-color: rgb(24, 166, 114);">Ambos marcan</td>
             </tr>
           </thead>
           <tbody id="Partidos"></tbody>
@@ -201,9 +196,7 @@
                 ? element.score.halftime.away
                 : "-"
             }</td>
-            <td>${element.score.halftime.home !== null && element.score.halftime.away !== null ? element.score.halftime.home + element.score.halftime.away > 0.5 ?"<img src='verde.svg'  width='20' height='20'/>":"<img src='rojo.svg'  width='20' height='20'/>": "-"}</td>
-            <td>${element.score.halftime.home !== null && element.score.halftime.away !== null ? element.score.halftime.home + element.score.halftime.away > 1.5 ?"<img src='verde.svg'  width='20' height='20'/>":"<img src='rojo.svg'  width='20' height='20'/>": "-"}</td>
-            <td>${element.score.halftime.home !== null && element.score.halftime.away !== null ? element.score.halftime.home + element.score.halftime.away > 2.5 ?"<img src='verde.svg'  width='20' height='20'/>":"<img src='rojo.svg'  width='20' height='20'/>": "-"}</td>
+            <td>${element.score.halftime.home !== null && element.score.halftime.away !== null ? element.score.halftime.home > 0.5 && element.score.halftime.away > 0.5 ? "<img src='verde.svg'  width='20' height='20'/>":"<img src='rojo.svg'  width='20' height='20'/>": "-"}</td>
             <td>${
                 element.score.fulltime.home !== null
                 ? element.score.fulltime.home
@@ -213,9 +206,7 @@
                 ? element.score.fulltime.away
                 : "-"
             }</td>
-            <td>${element.score.fulltime.home !== null && element.score.fulltime.away !== null ? element.score.fulltime.home + element.score.fulltime.away > 2.5 ?"<img src='verde.svg'  width='20' height='20'/>":"<img src='rojo.svg'  width='20' height='20'/>": "-"}</td>
-            <td>${element.score.fulltime.home !== null && element.score.fulltime.away !== null ? element.score.fulltime.home + element.score.fulltime.away > 3.5 ?"<img src='verde.svg'  width='20' height='20'/>":"<img src='rojo.svg'  width='20' height='20'/>": "-"}</td>
-            <td>${element.score.fulltime.home !== null && element.score.fulltime.away !== null ? element.score.fulltime.home + element.score.fulltime.away > 4.5 ?"<img src='verde.svg'  width='20' height='20'/>":"<img src='rojo.svg'  width='20' height='20'/>": "-"}</td>
+            <td>${element.score.fulltime.home !== null && element.score.fulltime.away !== null ? element.score.fulltime.home > 0.5 && element.score.fulltime.away > 0.5? "<img src='verde.svg'  width='20' height='20'/>":"<img src='rojo.svg'  width='20' height='20'/>": "-"}</td>
             `;
             partidos.appendChild(tr);
             });

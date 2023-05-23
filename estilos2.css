@@ -183,7 +183,7 @@ body{
   
     
     /* Estilos para los selectores */
-    select:not([name="tablaResul_length"]) {
+    select:not([name="tablaResul_length"]):not([name="selectequipos"]):not([name="selectLocalVisita"]):not([name="selectFavorContra"]) {
       padding: 5px;
       margin-right: 10px;
       border-radius: 5px;
