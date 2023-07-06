@@ -33,6 +33,7 @@
     />
     
     <link rel="stylesheet" href="estilos2.css" />
+    <link rel="stylesheet" href="efectocarga.css" />
     <style>
         table {
         width: 100%;
@@ -53,7 +54,7 @@
     <script src="ligas.json"></script>
   </head>
   <body>
-
+    <div id="cargando"></div>
     <div class="container">
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light p-2 mt-2">
@@ -153,6 +154,10 @@
 
 
     function fetchData(){
+      //mostrar efecto de carga
+      document.getElementById("cargando").innerHTML=`<div id="loader-wrapper">
+      <div id="loader"></div>
+      </div>`
         fetch(`https://v3.football.api-sports.io/fixtures?league=${ligaSelect.value}&season=${temporada.value}&from=${inicio.value}&to=${fin.value}`, {
             "method": "GET",
             "headers": {
@@ -220,7 +225,9 @@
                
             });
             });
-        
+            // Oculta la máscara de carga
+            var loader = document.querySelector("#loader-wrapper");
+            loader.style.display = "none";
         })
         .catch((err) => {
             console.log(err);
@@ -231,5 +238,6 @@
     //fetchData()
 
     </script>
+    
 </body>
 </html>

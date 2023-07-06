@@ -19,7 +19,7 @@
       src="https://www.gstatic.com/charts/loader.js"
     ></script>
 </head>
-<body style="background-color: black;">
+<body style="background-color: rgba(4, 55, 57, 0.941)">
     <div class="container">
        
         <div id="selecEquipos">
@@ -77,7 +77,7 @@
 
 
         <div class="container mt-10">
-            <h2>TABLA DE POSICIONES</h2>
+            <h2>Tabla de posiciones</h2>
             <div class="table-container">
               <table
                 id="tabla-posiciones"
@@ -146,10 +146,9 @@
             tabla.innerHTML = `
     
                 
-                    <table style="width: 100%; max-width: 800px; margin: 0 auto; background-color: #160451; color: #C0C0C0; font-size: 18px; border-collapse: collapse;">
-           
+                    <table style="width: 100%; max-width: 800px; margin: 0 auto; background-color: rgb(31, 97, 141); color: #C0C0C0; font-size: 18px; border-collapse: collapse;">
+                            <h2>Partidos Jugados</h2>
                         <tr>
-                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" rowspan="2">Partidos Jugados</th>
                             <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Local</th>
                             <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Visita</th>
                             <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Total</th>
@@ -167,11 +166,9 @@
 
             const tabla2 = document.getElementById("tabla2");
             tabla2.innerHTML = `
-    
-                    <table style="width: 100%; max-width: 800px; margin: 0 auto; background-color: #160451; color: #C0C0C0; font-size: 18px; border-collapse: collapse;">
-           
+                    <h2>Partidos Ganados</h2>
+                    <table style="width: 100%; max-width: 800px; margin: 0 auto; background-color: rgb(31, 97, 141); color: #C0C0C0; font-size: 18px; border-collapse: collapse;">
                         <tr>
-                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" rowspan="2">Partidos Ganados</th>
                             <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Local</th>
                             <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Visita</th>
                             <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Total</th>
@@ -189,11 +186,10 @@
 
             const tabla3 = document.getElementById("tabla3");
             tabla3.innerHTML = `
-    
-                    <table style="width: 100%; max-width: 800px; margin: 0 auto; background-color: #160451;  color: #C0C0C0; font-size: 18px; border-collapse: collapse;">
-           
+                    <h2>Partidos Empatados</h2>
+                    <table style="width: 100%; max-width: 800px; margin: 0 auto; background-color: rgb(31, 97, 141);  color: #C0C0C0; font-size: 18px; border-collapse: collapse;">
+                     
                         <tr>
-                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" rowspan="2">Partidos Empatados</th>
                             <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Local</th>
                             <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Visita</th>
                             <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Total</th>
@@ -210,11 +206,10 @@
                      `;
             const tabla4 = document.getElementById("tabla4");
             tabla4.innerHTML = `
-    
-                    <table style="width: 100%; max-width: 800px; margin: 0 auto; background-color: #160451; color: #C0C0C0; font-size: 18px; border-collapse: collapse;">
+                    <h2>Partidos Perdidos</h2>
+                    <table style="width: 100%; max-width: 800px; margin: 0 auto; background-color: rgb(31, 97, 141); color: #C0C0C0; font-size: 18px; border-collapse: collapse;">
            
                         <tr>
-                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" rowspan="2">Partidos Perdidos</th>
                             <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Local</th>
                             <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Visita</th>
                             <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Total</th>
@@ -233,11 +228,10 @@
             const golesMarcados = document.getElementById("golesMarcados");
             golesMarcados.innerHTML = `
     
-                    <h2>GOLES A FAVOR</h2>
-                    <table style="width: 100%; max-width: 800px; margin: 0 auto; background-color: #160451; color: #C0C0C0; font-size: 18px; border-collapse: collapse;">
+                    <h2>Goles a favor</h2>
+                    <table style="width: 100%; max-width: 800px; margin: 0 auto; background-color: rgb(31, 97, 141); color: #C0C0C0; font-size: 18px; border-collapse: collapse;">
            
                         <tr>
-                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" rowspan="2">Goles Marcados</th>
                             <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Local</th>
                             <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Visita</th>
                             <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Total</th>
@@ -339,11 +333,10 @@
             const golesContra = document.getElementById("golesContra");
             golesContra.innerHTML = `
     
-                    <h2>GOLES EN CONTRA</h2>
-                    <table style="width: 100%; max-width: 800px; margin: 0 auto; background-color: #160451; color: #C0C0C0; font-size: 18px; border-collapse: collapse;">
+                    <h2>Goles en contra</h2>
+                    <table style="width: 100%; max-width: 800px; margin: 0 auto; background-color: rgb(31, 97, 141); color: #C0C0C0; font-size: 18px; border-collapse: collapse;">
            
                         <tr>
-                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" rowspan="2">Goles Recibidos</th>
                             <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Local</th>
                             <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Visita</th>
                             <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Total</th>
@@ -441,11 +434,10 @@
             //Rachas
             const rachas = document.getElementById("rachas");
             rachas.innerHTML = `
-                    <h2>MEJORES RACHAS</h2>
-                    <table style="width: 100%; max-width: 800px; margin: 0 auto; background-color: #160451; color: #C0C0C0; font-size: 18px; border-collapse: collapse;">
+                    <h2>Mejores rachas</h2>
+                    <table style="width: 100%; max-width: 800px; margin: 0 auto; background-color: rgb(31, 97, 141); color: #C0C0C0; font-size: 18px; border-collapse: collapse;">
            
                         <tr>
-                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" rowspan="2">Rachas</th>
                             <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Triunfos</th>
                             <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Empates</th>
                             <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Derrotas </th>
@@ -466,11 +458,10 @@
             const mejoresVictorias =
               document.getElementById("mejoresVictorias");
             mejoresVictorias.innerHTML = `
-    
-                    <table style="width: 100%; max-width: 800px; margin: 0 auto; background-color: #160451; color: #C0C0C0; font-size: 18px; border-collapse: collapse;">
+                     <h2>La mejor victoria</h2>
+                    <table style="width: 100%; max-width: 800px; margin: 0 auto; background-color: rgb(31, 97, 141); color: #C0C0C0; font-size: 18px; border-collapse: collapse;">
            
                         <tr>
-                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" rowspan="2">La mejor victoria</th>
                             <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Local</th>
                             <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Visita</th>
                            
@@ -489,11 +480,10 @@
 
             const peorDerrota = document.getElementById("peorDerrota");
             peorDerrota.innerHTML = `
-    
-                    <table style="width: 100%; max-width: 800px; margin: 0 auto; background-color: #160451; color: #C0C0C0; font-size: 18px; border-collapse: collapse;">
+                    <h2>La peor derrota</h2>
+                    <table style="width: 100%; max-width: 800px; margin: 0 auto; background-color: rgb(31, 97, 141); color: #C0C0C0; font-size: 18px; border-collapse: collapse;">
            
                         <tr>
-                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" rowspan="2">La peor derrota</th>
                             <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Local</th>
                             <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Visita</th>
                            
@@ -511,11 +501,11 @@
             //maximas anotaciones
             const maxAnotaciones = document.getElementById("maxAnotaciones");
             maxAnotaciones.innerHTML = `
-    
-                    <table style="width: 100%; max-width: 800px; margin: 0 auto; background-color: #160451; color: #C0C0C0; font-size: 18px; border-collapse: collapse;">
+                    <h2>Máxima anotación</h2>
+                    <table style="width: 100%; max-width: 800px; margin: 0 auto; background-color: rgb(31, 97, 141); color: #C0C0C0; font-size: 18px; border-collapse: collapse;">
            
                         <tr>
-                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" rowspan="2">Máxima anotación</th>
+                           
                             <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Local</th>
                             <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Visita</th>
                            
@@ -534,11 +524,10 @@
             const maxGolesencajados =
               document.getElementById("maxGolesencajados");
             maxGolesencajados.innerHTML = `
-    
-                    <table style="width: 100%; max-width: 800px; margin: 0 auto; background-color: #160451; color: #C0C0C0; font-size: 18px; border-collapse: collapse;">
+                    <h2>Máximo número de goles encajado</h2>
+                    <table style="width: 100%; max-width: 800px; margin: 0 auto; background-color: rgb(31, 97, 141); color: #C0C0C0; font-size: 18px; border-collapse: collapse;">
            
                         <tr>
-                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" rowspan="2">Máximo número de goles encajados</th>
                             <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Local</th>
                             <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Visita</th>
                            
@@ -556,11 +545,10 @@
             //canasta limpia
             const canastaLimpia = document.getElementById("canastaLimpia");
             canastaLimpia.innerHTML = `
-                    <h2>CANASTA LIMPIA</h2>
-                    <table style="width: 100%; max-width: 800px; margin: 0 auto; background-color: #160451; color: #C0C0C0; font-size: 18px; border-collapse: collapse;">
+                    <h2>Canasta limpia</h2>
+                    <table style="width: 100%; max-width: 800px; margin: 0 auto; background-color: rgb(31, 97, 141); color: #C0C0C0; font-size: 18px; border-collapse: collapse;">
            
                         <tr>
-                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" rowspan="2">Canasta limpia</th>
                             <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Local</th>
                             <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Visita</th>
                             <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Total</th>
@@ -578,11 +566,10 @@
             //No anoto
             const noAnoto = document.getElementById("noAnoto");
             noAnoto.innerHTML = `
-    
-                    <table style="width: 100%; max-width: 800px; margin: 0 auto; background-color: #160451; color: #C0C0C0; font-size: 18px; border-collapse: collapse;">
+                    <h2>No pudo Anotar</h2>
+                    <table style="width: 100%; max-width: 800px; margin: 0 auto; background-color: rgb(31, 97, 141); color: #C0C0C0; font-size: 18px; border-collapse: collapse;">
            
                         <tr>
-                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" rowspan="2">No pudo Anotar</th>
                             <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Local</th>
                             <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Visita</th>
                             <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Total</th>
@@ -601,11 +588,10 @@
 
             const penales = document.getElementById("penales");
             penales.innerHTML = `
-                    <h2>PENALES</h2>
-                    <table style="width: 100%; max-width: 800px; margin: 0 auto; background-color: #160451; color: #C0C0C0; font-size: 18px; border-collapse: collapse;">
+                    <h2>Penales</h2>
+                    <table style="width: 100%; max-width: 800px; margin: 0 auto; background-color: rgb(31, 97, 141); color: #C0C0C0; font-size: 18px; border-collapse: collapse;">
            
                         <tr>
-                            <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" rowspan="2">Penales</th>
                             <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Anotados</th>
                             <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;" >Perdidos</th>
                            
@@ -625,9 +611,9 @@
               "formaciones-wrapper"
             );
             formacionesWrapper.innerHTML = `
-                    <h2 style="text-align: center;">FORMACIONES</h2>
+                    <h2 style="text-align: center;">Formaciones</h2>
                     <div style="width: 100%; max-width: 800px; margin: 0 auto;">
-                        <table style="width: 100%; background-color: #160451; color: #C0C0C0; font-size: 18px; border-collapse: collapse;">
+                        <table style="width: 100%; background-color: rgb(31, 97, 141); color: #C0C0C0; font-size: 18px; border-collapse: collapse;">
                         
                                 <tr>
                                     <th style="padding: 10px; border: 1px solid #FFFFFF; text-align: center;">Formación</th>
