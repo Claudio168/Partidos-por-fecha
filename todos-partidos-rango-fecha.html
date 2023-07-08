@@ -33,7 +33,7 @@
     />
     
     <link rel="stylesheet" href="estilos2.css" />
-    <link rel="stylesheet" href="efectocarga.css" />
+   
     <!-- Importación de DataTables Responsive JS -->
     <script
       type="text/javascript"
@@ -150,10 +150,11 @@
 
 
     function fetchData(){
-      //mostrar efecto de carga
-      document.getElementById("cargando").innerHTML=`<div id="loader-wrapper">
-      <div id="loader"></div>
-      </div>`
+       //mostrar efecto de carga
+
+        let boton = document.getElementById("btn-consulta")
+            boton.disabled = true;
+            boton.innerHTML="Cargando..."
         fetch(`https://v3.football.api-sports.io/fixtures?league=${ligaSelect.value}&season=${temporada.value}&from=${inicio.value}&to=${fin.value}`, {
             "method": "GET",
             "headers": {
@@ -243,10 +244,9 @@
                 bInfo: false,
             });
             });
-            // Oculta la máscara de carga
-            var loader = document.querySelector("#loader-wrapper");
-            loader.style.display = "none"; 
-        
+            
+            boton.innerHTML="Consultar"
+            boton.disabled = false;
         })
         .catch((err) => {
             console.log(err);
